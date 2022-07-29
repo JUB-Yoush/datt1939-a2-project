@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3-1</title>
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        p{
+            position: absolute;
+            font-family: 'Courier New', Courier, monospace
+        }
+        img{
+            position: absolute;
+        }
+        #bgRain{
+            
+            z-index: -3;
+            
+        }
+        #bgImg{
+            width: 100%;
+           
+            z-index: -2;
+            top: 0px;
+            left: 0px;
+        }
+        #bgFire{
+            z-index: -1;
+            top: 75px;
+            left:0px;
+            width: 100%;
+            height: 100%;
+        }
+        #npcImg{
+          
+            
+            width:15%;
+            top: 300px;
+            left: 300px;
+        }
+        #npcTxt{
+            top: 250px;
+            left: 375px;
+        }
+        #playerImg{
+            width:17%;
+            top: 300px;
+            left: 800px;
+        }
+       
+        #advArrow{
+            width:7%;
+            top: 10px;
+            left: 10px;
+        }
+        #advTxt{
+            top:75px;
+            left:10px;
+        }
+        .spinner {
+            animation-name: spin;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+          }
+          @keyframes spin {
+            from { transform: rotateX(0deg); }
+            to { transform: rotateX(-360deg); }
+          }
+    </style>
+</head>
+<body>
+    <audio id="bgm" autoplay loop>
+        <source src='angery.mp3' type="audio/mpeg">
+    </audio>
+
+    <img id= bgFire src='area3fire.gif'>
+    <img id=bgImg src='Area3bg.png'>
+    <img id=bgRain src='bg3rain.gif'>
+    
+    <img id = playerImg src ='Player.gif'>
+    <img id =npcImg src =npc3.gif>
+    <p id =npcTxt>???</p>
+
+    <img id =advArrow src ="advpage.PNG">
+    <p id =advTxt>Continue</p>
+
+    
+</body>
+<script>
+    let npcImg = document.getElementById('npcImg');
+    let npcTxt = document.getElementById('npcTxt');
+    npcTxt.style.display = 'none';
+
+    let advArrow = document.getElementById('advArrow')
+    let advTxt = document.getElementById('advTxt')
+    advTxt.style.display = 'none';
+    advArrow.style.display = 'none';
+    
+    let cookies = document.cookie
+    if (cookies.length > 0){
+        npcTxt.textContent = 'Anger';
+        advArrow.style.display = 'block';
+
+        //advArrow.style.display = 'block';
+    }
+       
+    npcImg.addEventListener('mouseover',function(){
+        npcTxt.style.display = 'block';
+        console.log('over')
+    })
+    npcImg.addEventListener('mouseleave',function(){
+        npcTxt.style.display = 'none';
+        console.log('leave')
+    })
+    npcImg.addEventListener('click',function(){
+        let cookies = document.cookie
+        if (cookies.length == 0){
+            document.cookie = "met_npc = TRUE"
+            window.location.href = "NPC3convo.html";
+        }
+        else{
+            alert("This is fine.")
+        }
+    })
+
+    advArrow.addEventListener('mouseover',function(){
+        advTxt.style.display = 'block';
+        advArrow.classList.add('spinner')
+        advArrow.src = "advpageover.PNG"
+    })
+    advArrow.addEventListener('mouseleave',function(){
+        advTxt.style.display = 'none';
+        advArrow.classList.remove('spinner')
+        advArrow.src = "advpage.PNG"
+    })
+    advArrow.addEventListener('click',function(){
+        alert("You've soothed his burning soul. but not so much his burning house. You feel as if your 'Journey' is coming to an end.")
+        window.location.href = "../opening/ending.html";
+    })
+    
+</script>
+</html>

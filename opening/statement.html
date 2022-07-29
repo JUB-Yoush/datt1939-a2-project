@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statement</title>
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+            background-image: url("opBg.PNG");
+            background-repeat: repeat-y;
+        }
+        h1,h2,h3,a,p,ol,ul,li{
+            font-family: 'Courier New', Courier, monospace;
+            margin: 15px;
+        }
+        .txtBox{
+            width: 90%;
+            margin: 20px;
+            align-items: center;
+            border-style: solid;
+            border-radius: 15px;
+            border-color: #ecbddd;
+            border-width: 20px;
+            background-color: #fffcfe;
+            
+        }
+        #mg3answers{
+            background-color: gray;
+        }
+        #answers{
+            color: gray;
+        }
+       /* #bg{
+            width: 100%;
+            position: absolute;
+            z-index: -100;
+            top: 0px;
+            left: 0px;
+        } */
+    </style>
+</head>
+<body>
+    <audio id="bgm" autoplay loop>
+        <source src='dreamscape.mp3' type="audio/mpeg">
+    </audio>
+    
+    <div class =txtBox>
+        <h1 id = title>LISTEN HERE!</h1>
+        <h3> A Project By: Jayden Brooks, Eva Meier, Emil Koberne, and Jason Truong</h3>
+        <p>
+            Welcome to FIGURE IT OUT. A journey of emotions and learning to overcome those tough feelings. Our goal with this project was to show the process of handling negative emotions throughout an average day. You as the player must go through the game completing a variety of minigames for emotion-characters and help them feel better. We wanted to create an environment for these characters that has room for a lot of creative freedom, and so we decided on a dreamscape-esque. Something like that can be filled with soft colours, abstract shapes, and things that wouldn’t make much sense such as doors that lead to completely different settings that compliment the emotions. For the actual characters themselves we wanted to keep them relatable for everyone, so we chose emotions like perpetual boredom and anxiety that everyone feels at one point.
+        </p>
+        
+        <p>
+           We wished to capture the feelings of play and playfulness within the mundane, obviously through the use of minigames, a point and click format, and a conversation system similar to those found in visual novels and other story driven games, but through the very emotions themselves being characterized versions of the feeling. 
+        </p>
+        <p>
+            The game ends with something we thought would be very interesting was giving the replaying of the game a meaning, so we decided that it represents the daily cycle of someone dealing with these feelings. The player goes to bed, helps the negative emotions feel better, and then wakes up from their dream, solidifying the dream-like vibe of the piece as well as imply a sort of looping aspect (the ending and beginning screens having a similar background.) Implying that the player could chose to go over the game again if they wished.
+        </p>
+        <p>
+            Our A2 is an art webgame that focuses on the inner mental workings of an average person, utilizing simple minigames to progress, and meeting a few personified emotions along the way.
+We had decided from the start that we didn’t want a typical ending that says either ‘you win’ or ‘you lose’, and wanted to leave it more up to interpretation. The progression for our game is linear and makes the player follow a specific track in order to reach the ending, however the ending was made to imply to loop back to the beginning and form a loop that the player can choose to complete again or not.
+
+        </p>
+        <p>
+            Our definition of play focuses more on analysis, deconstruction, and criticism.
+        </p>
+    </div>
+    <div class = txtBox>
+        <h1>Columns:</h1>
+        <h2>Part A: The What</h2>
+            <p>We made a game.</p>
+            <p>The game follows the format of a point and click adventure</p>
+            <ul>
+                <li>Our game does not have a typical “ending”; it is open to interpretation</li>
+                <li>There is no notion of winning and losing</li>
+                <li>“Progress” in the game is simply defined by collecting the items from NPCs by completing the minigames, the items aren't shown or used at all.</li>
+                <li>There isn’t a point/score system of any sort</li>
+            </ul>
+            <p>The game consists of 3 different areas/rooms being visited one at a time in a linear structure. These areas are inhabited by one NPC, respectively representing boredom, anxiety, and anger. Upon completing each NPC’s minigame, the player receives an item, which is necessary to move on to the next area. Collecting all 3 items will end the game.</p>
+        <h2>Part B:The Subject/Theme Starting Point </h2>
+            <p>
+                For our definition of play, where we take the ideas of adopting a role, as well as taking the idea of how play can act as deconstruction, analysis, and criticism.
+            </p>
+            <p>
+                For our definition of play; we took inspiration from the Merriam-Webster definition of play as “a piece of writing that tells a story through the actions and words of characters and that is performed on a stage”, and created a game that tells story through characters and actions of the player.  
+            </p>
+        <h2>Part C: Informing Theory/Logics:</h2>
+            <p>"play is the free space of movement within a more rigid structure"</p>
+            <p>play is a method to explore and understand. Our game is about exploring and deconstructing an existing structure to analyse the deeper components the structure was made from</p>
+            <p>Taking inspiration from Anna Anthropy’s, Rise of the Videogame Zinesters, we used the concepts of hiding information and offering more freedom to make the game more personalized, as well as using the idea of chance in our game to make it less stale and also more unique.</p>
+        <h2>Page D: Page Oriented or Javascript Oriented:</h2>
+        <p>JavaScript-oriented game.</p>
+        <p>We have 15 pages in total, all using JavaScript.</p>
+    </div>
+    <div class = txtBox>
+        <h1>File List (with JS usage)</h1>
+        <h3>Opening</h3>
+            <ul>
+                <li>index.html: random Text, 3+ mouse events, setTimeout, complex loops, if statements with user input</li>
+                <li>Statement: mouse events</li>
+            </ul>
+        <h3>Area 1</h3>
+        <ul>
+            <li>Area1.html: randomness, 3+ mouse events, JS Cookies, JS setInterval,random positioning</li>
+            <li>NPC1convo.html: 3+ mouse events JS setTimeout, setInterval, complex loops</li>
+            <li>NPC1mgame.html: 3+ mouse events, Randomness, setTimeout</li>
+            <li>NPC1convoEnd.html: 3+ mouse events JS setTimeout, setInterval, complex loops</li>
+
+        </ul>
+        <h3>Area 2</h3>
+        <ul>
+            <li>Area2.html: randomness, 3+ mouse events, JS Cookies JS setInterval,Random images and positioning</li>
+            <li>NPC2convo.html:  3+ mouse events JS setTimeout, setInterval, complex loops</li>
+            <li>NPC2Minigame.html: Div interactions, Keypresses.</li>
+            <li>NPC2convoEnd.html:  3+ mouse events JS setTimeout, setInterval, complex loops</li>
+
+        </ul>
+        <h3>Area 3</h3>
+        <ul>
+            <li>Area3.html: 3+ mouse events, JS Cookies</li>
+            <li>NPC3convo.html:  3+ mouse events JS setTimeout, setInterval, complex loops</li>
+            <li>NPC3minigame3.html: if statements with user input</li>
+            <li>NPC3convoEnd.html:  3+ mouse events JS setTimeout, setInterval, complex loops</li>
+        </ul>
+        <h3>Ending</h3>
+        <ul>
+            <li>ending.html:  random Text, 3+ mouse events, setTimeout,  complex loops</li>
+        </ul>
+        
+    </div>
+    <div id = txtBox>
+        <img src='sitemap.png'>
+    </div>
+
+    <div class =txtBox>
+        <h1>Things you should know about this project!</h1>
+        <p>
+            We have music and sound effects! But your browser might be set to autoplay blocked, try disabling it and reloading the page (or change the settings on your browser)
+            Javascript is hard! There's a lot of moving parts in this thing, and it all seems to work on my computer at least (running Firefox)
+            here are some things you should know before starting! <br>
+            <br>
+            The cookies aren't timed, they delete once the page is closed, but not when redirected to.
+            If you accadentally go back to the npc area after you started the conversation, the game will think you've completed the minigame.<br>
+            <br>
+            
+            If this happens, you can close the tab and go back to the conversation page, but if you've lost it you can always use one of these links:
+        </p>
+        <a href="../Area-1/Area1.html">Area 1</a>
+        <a href="../Area-2/Area2.html">Area 2</a>
+        <a href="../Area-3/Area3.html">Area 3</a>
+        <h3>ANSWERS TO THE 3RD MINIGAME (HOVER TO REVEAL):</h3>
+        <div id =mg3answers>
+            <p id=answers>
+                hi <br>
+                talk to me <br>
+                why? <br>
+                calm down <br>
+                yes <br>
+            </p>
+        </div>
+    </div>
+    <div class="txtBox">
+        <h1>Are you ready?</h1>
+        <a href="../index.html">Head back to the opening</a>
+        <br>
+        <p> </p>
+    </div>
+</body>
+<script>
+    let answers = document.getElementById('answers')
+    answers.addEventListener('mouseover',function(){
+        answers.style.color = "white"
+    })
+    answers.addEventListener('mouseleave',function(){
+        answers.style.color = "grey"
+    })
+
+</script>
+</html>

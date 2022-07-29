@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>2-3</title>
+
+<style>
+
+	body {
+	background-color: #cccccc;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: medium;
+	color: #000000;
+	background-image: url("Room2bg.png");
+	}
+
+	#player {
+	position: absolute;
+	z-index: 2;
+	}
+	
+	#exit {
+	position: absolute;
+	top: 500px;
+	left: 1200px;
+	}
+	
+	#exit1 {
+	position: absolute;
+	top: 0px;
+	left: 900px;
+	}
+	
+	.exit {
+	position: absolute;
+	width: 80px;
+	height: 100px;
+	background-size: 100px 100px;
+	background-image: url("assets/Player.gif");
+	background-repeat: repeat;
+	}
+	
+	#sunglasses {
+	position: absolute;
+	top: 500px;
+	left: 800px;
+	width: 100px;
+	height: 100px;
+	}
+	
+	#mungus {
+	position: absolute;
+	top: 600px;
+	left: 400px;
+	width: 100px;
+	height: 100px;
+	}
+
+	#triangle {
+	position: absolute;
+	top: 0px;
+	left: 1100px;
+	width: 100px;
+	height: 100px;
+	}
+
+	#sunglasses {
+	position: absolute;
+	top: 500px;
+	left: 800px;
+	width: 100px;
+	height: 100px;
+	}
+	
+	.tile {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background-size: 100px 100px;
+	background-image: url("tile.png");
+	background-repeat: repeat;
+	}
+	
+	#tile_bot {
+	top: 600px;
+	left: 0px;
+	width: 1280px;
+	height: 100px;
+	}
+	
+	#tile_left {
+	top: 0px;
+	left: 100px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_left2 {
+	top: 200px;
+	left: 300px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_top {
+	top: 0px;
+	left: 200px;
+	width: 1080px;
+	height: 100px;
+	}
+	
+	#tile_middle {
+	top: 0px;
+	left: 500px;
+	width: 100px;
+	height: 300px;
+	}
+
+	#tile_middle2 {
+	top: 400px;
+	left: 500px;
+	width: 400px;
+	height: 100px;
+	}
+
+	#tile_middle3 {
+	top: 200px;
+	left: 700px;
+	width: 400px;
+	height: 100px;
+	}
+	
+	#tile_right {
+	top: 200px;
+	left: 900px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_right2 {
+	top: 0px;
+	left: 1200px;
+	width: 80px;
+	height: 500px;
+	}
+	
+	#tile_right3 {
+	top: 400px;
+	left: 1100px;
+	width: 100px;
+	height: 100px;
+	}
+	
+	.interact {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	}
+	
+	#wall_left {
+		top: 0px;
+		left: 0px;
+		width: 100px;
+		height: 500px;
+	}
+	
+	#wall_leftbot {
+		top: 600px;
+		left: 0px;
+		width: 400px;
+		height: 100px;
+	}
+
+	#wall_bot {
+		top: 500px;
+		left: 300px;
+		width: 700px;
+		height: 100px;
+	}
+
+	#wall_rightbot {
+		top: 600px;
+		left: 1100px;
+		width: 180px;
+		height: 100px;
+	}
+
+	#wall_right {
+		top: 0px;
+		left: 1200px;
+		width: 80px;
+		height: 700px;
+	}
+
+	#wall_right2 {
+		top: 0px;
+		left: 1000px;
+		width: 100px;
+		height: 200px;
+	}
+
+	#wall_middle {
+		top: 300px;
+		left: 200px;
+		width: 1000px;
+		height: 100px;
+	}
+	
+	#wall_top {
+		top: 100px;
+		left: 200px;
+		width: 900px;
+		height: 100px;
+	}
+
+</style>
+
+<script>
+
+// starting point
+var originalx = 0;
+var originaly = 0;
+
+// item locations
+var itemx = 800;
+var itemy = 500;
+var item1x = 400;
+var item1y = 600;
+var item2x = 1100;
+var item2y = 0;
+
+// exit locations
+var exitx = 1200;
+var exity = 500;
+var exit1x = 900;
+var exit1y = 0;
+
+// keeps track if items are collected
+var gotItem = false;
+var gotItem1 = false;
+var gotItem2 = false;
+
+// keeps track of level
+var level = 0;
+
+// arrays used to store divs for turning on and off
+var lvl0 = ["tile_bot", "tile_left", "tile_left2", "tile_top", "tile_middle", "tile_middle2", "tile_middle3", "tile_right", "tile_right2", "tile_right3"]
+var lvl1 = ["wall_left", "wall_leftbot", "wall_bot", "wall_rightbot","wall_right", "wall_right2", "wall_middle", "wall_top"]
+
+// used to save last position before interacting w/ wall or item
+var backupx = 0;
+var backupy = 0;
+
+// used to see if you picked up the item already
+var alertdone = "no";
+var alertdone1 = "no";
+var alertdone2 = "no";
+
+function setup() {
+	hide_lvl(lvl1);
+	hide_div("exit1");
+	hide_div("mungus");
+	hide_div("triangle");
+}
+
+// Used to hide a level
+function hide_lvl(lvl) { // https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+	var x = null;
+	for (let i = 0; i < lvl.length; i++) {
+		x = document.getElementById(lvl[i]);
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		}
+		else {
+			x.style.display = "none";
+		}
+	}
+}
+
+// hides a div (toggle)
+function hide_div(item) {
+	var x = document.getElementById(item);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	}
+	else {
+		x.style.display = "none";
+	}
+}
+
+// checks if you touch a wall
+function wall_check(x_low, x_hi, y_low, y_hi) {
+	if (originalx >= x_low && originalx < x_hi) {
+		if (originaly > y_low && originaly < y_hi) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+}
+
+function moveadiv(div2move, wheremov) { //source: "js_onkeypressMoveADiv_areas3"
+    // usage: moveadiv('idofdiv','direction2move')
+
+    var adiv = document.getElementById(div2move);  //get the id of the div
+    var direction = wheremov;	
+
+    // alert("div2move: " + div2move + " | direction: " + direction);		
+	
+	if (direction == "left") {     // move the position 10 according to direction 
+        originalx = originalx - 100;        
+    } else if (direction == "right") {
+		originalx = originalx + 100;
+    } else if (direction == "up") {
+		originaly = originaly - 100;
+    } else if (direction == "down") {
+		originaly = originaly + 100;
+    } 
+    
+    //Now, adjust position in case it is going out of bounds:
+
+	if (originaly < 0) {
+	originaly = 0;		
+	}
+	
+	if (originaly > 600) {
+	originaly = 600;		
+	}
+
+	if (originalx < 0) {
+	originalx = 0;			
+	}
+
+	if (originalx > 1200) { 
+	originalx = 1200;		
+	}
+	
+	if (level == 0) {
+		
+		// walls
+		wall_check(100, 800, -1, 100); // top-most wall
+		wall_check(0, 1300, 500, 800); // bottom wall
+		wall_check(100, 200, 0, 500); // left most wall
+		wall_check(300, 400, 100, 800); // 2nd left most wall
+		wall_check(500, 600, 0, 300); // middle top wall
+		wall_check(500, 1000, 300, 500); // middle-bottom wall (above sunglasses)
+		wall_check(900, 1000, 200, 800); // 2nd right-most wall
+		wall_check(700, 1100, 100, 300); // middle-right wall
+		wall_check(1100, 1300, 300, 500); // tile sticking out at bottom right
+		wall_check(1200, 1300, 0, 500); // right-most wall
+		
+		// Checks if user has reached exit
+		if (originalx >= exitx && originalx <= exitx+100) { //check x
+			if (originaly >= exity && originaly < exity+100) { //check y
+			
+				originalx = backupx;
+				originaly = backupy;
+				
+				if (gotItem == true) {
+					alert("You found the way out... or did you?");
+					alertdone = "yes";
+					hide_div("exit");
+					hide_div("exit1");
+					hide_lvl(lvl1)
+					hide_lvl(lvl0)
+					hide_div("mungus");
+					hide_div("triangle");
+					originalx = 0;
+					originaly = 500;
+					level ++;
+				}
+				if (gotItem == false) {
+					alert("You haven't found all the items yet...");
+				}
+		   } //end check y
+		} //end check x
+		
+		
+		//Finally, if the div has reached the item:
+		
+		if (originalx >= itemx && originalx < itemx+100) { //check x
+		
+			if (originaly >= itemy && originaly < itemy+100) { //check y
+
+				if (alertdone == "no") {
+					gotItem = true;
+					alert("You found his sunglasses!");
+					alertdone = "yes";
+					hide_div("sunglasses");
+				}
+		   } //end check y
+		} //end check x
+		
+		// Save position (used in wall if statements)
+	
+		backupx = originalx;
+		backupy = originaly;
+		
+		// Now, move the div to the position for x and y:
+		
+		adiv.style.left = backupx + "px";
+		adiv.style.top = backupy + "px";
+		
+	} // end level 0
+
+	if (level == 1) {
+		
+		wall_check(0,100,-1,500); // left
+		wall_check(0,400,500,800); // left bottom
+		wall_check(300,1000,400,600); // bottom most
+		wall_check(1100,1200,500,800); // bottom right corner
+		wall_check(1000,1100,-1,100); // top right corner
+		wall_check(1200,1300,-1,800); // right most
+		wall_check(200,1200,200,400); // middle
+		wall_check(200,1100,0,200); // middle
+		
+		if (originalx >= exit1x && originalx <= exit1x+100) { //check x
+			if (originaly >= exit1y && originaly < exit1y+100) { //check y
+			
+				originalx = backupx;
+				originaly = backupy;
+				
+				if (gotItem1 == true && gotItem2 == true) {
+					alert("You found the way out.");
+					alertdone = "yes";
+					hide_div("exit");
+					window.location.href = "NPC2convoEnd.html";
+					level ++;
+				}
+				else {
+					alert("You haven't found all the items yet...");
+				}
+		   } //end check y
+		} //end check x
+		
+		if (originalx >= item1x && originalx < item1x+100) { //check x
+		
+			if (originaly >= item1y && originaly < item1y+100) { //check y
+
+				if (alertdone1 == "no") {
+					gotItem1 = true;
+					alert("You found his suspicious looking item!");
+					alertdone1 = "yes";
+					hide_div("mungus");
+				}
+		   } //end check y
+		} //end check x
+		
+		if (originalx >= item2x && originalx < item2x+100) { //check x
+		
+			if (originaly >= item2y && originaly < item2y+100) { //check y
+
+				if (alertdone2 == "no") {
+					gotItem2 = true;
+					alert("You found his flim flam?");
+					alertdone2 = "yes";
+					hide_div("triangle");
+				}
+		   } //end check y
+		} //end check x
+		
+		// Save position (used in wall if statements)
+	
+		backupx = originalx;
+		backupy = originaly;
+		
+		// Now, move the div to the position for x and y:
+		
+		adiv.style.left = backupx + "px";
+		adiv.style.top = backupy + "px";
+		
+
+	}
+
+
+} //end of function moveadiv
+
+function keyStuff(event) {
+
+   var x = event.charCode || event.keyCode;  // Get the Unicode value
+   var y = String.fromCharCode(x);  // Convert the value into a character
+   
+
+	// Move the div using WASD keys
+   if (x == 97) {  //if the charCode from the keypress is 97, a
+       moveadiv('player','left');
+       
+   } else if (x == 100) { // d
+       moveadiv('player','right');
+       
+   } else if (x == 119) { // w
+       moveadiv('player','up');
+       
+   } else if (x == 115) { // s
+       moveadiv('player','down');
+       
+   } else {  //any other keys pressed:
+   }
+
+}  //end of function keyStuff
+
+</script>
+
+</head>
+
+<body onkeypress="keyStuff(event);" onload= "setup();"></body>
+
+<audio id="bgm" autoplay loop>
+	<source src='anxiousloop.mp3' type="audio/mpeg">
+</audio>
+
+	<div id="player"><img src= "anxiety_sprite.gif" width="100" height="100"></div>
+	<div class="interact" id="sunglasses"><img src= "sunglasses.png" width="100" height="100"></div>
+	
+	<div class="tile" id="tile_bot"></div>
+	<div class="tile" id="tile_left"></div>
+	<div class="tile" id="tile_left2"></div>
+	<div class="tile" id="tile_top"></div>
+	<div class="tile" id="tile_middle"></div>
+	<div class="tile" id="tile_middle2"></div>
+	<div class="tile" id="tile_middle3"></div>
+	<div class="tile" id="tile_right"></div>
+	<div class="tile" id="tile_right2"></div>
+	<div class="tile" id="tile_right3"></div>
+	<div class="exit" id="exit"></div>
+	
+	<div class="tile" id="wall_left"></div>
+	<div class="tile" id="wall_leftbot"></div>
+	<div class="tile" id="wall_bot"></div>
+	<div class="exit" id="exit1"></div>
+	<div class="tile" id="wall_rightbot"></div>
+	<div class="tile" id="wall_right"></div>
+	<div class="tile" id="wall_right2"></div>
+	<div class="tile" id="wall_middle"></div>
+	<div class="tile" id="wall_top"></div>
+	
+	<div class="interact" id="mungus"><img src= "../Area-1/mGameObj2.GIF" width="100" height="100"></div>
+	<div class="interact" id="triangle"><img src= "../Area-1/mGameObj3.GIF" width="100" height="100"></div>
+
+</body>
+</html>
+

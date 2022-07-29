@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>3-3</title>
+
+<style>
+#output-textbox {
+	position: absolute;
+	top: 400px;
+	left: 690px;
+	z-index: 3;
+	background-color: #a1af9b;
+}
+
+#input-textbox {
+	position: absolute;
+	top: 450px;
+	left: 380px;
+	z-index: 3;
+	background-color: #a1af9b;
+}
+
+#button {
+	position:  absolute;
+	top:  530px;
+	left: 200px;
+}
+
+ #angrychar {
+	position:  absolute;
+	top:  370px;
+	left:  1000px;
+	z-index: 3;
+
+}
+
+#player  {
+	position: absolute;
+	top: 370px;
+	left: 270px;
+	z-index: 3;
+}
+
+#background {
+	position: fixed;
+	overflow: auto;
+	top: 0px ;
+	left: 0px;	
+	z-index: 1;
+
+}
+
+#fire {
+	position: absolute;
+	top: 50px;
+	left: 0px;
+	z-index: 2;
+}
+p,input{
+	font-family: 'Courier New', Courier, monospace;
+}
+
+
+
+body {
+	overflow: hidden;
+}
+#hint{
+	z-index: 10;
+	position: absolute;
+	top: 380px;
+	left: 400px;
+}
+</style>
+
+
+
+</head>
+<body>
+<audio id="bgm" autoplay loop>
+    <source src='angery.mp3' type="audio/mpeg">
+</audio>
+<audio id="talkNoise">
+	<source src='talknoise3.mp3' type="audio/mpeg">
+</audio>
+<p id = hint> Say somthing!</p>
+<form onSubmit="go();return false;">
+<input id="input-textbox" type="text" />
+<input type="submit" id="button" />
+</form>
+<textarea id="output-textbox" rows="15" cols="40"></textarea>
+<script>
+
+textIn  = document.getElementById("input-textbox");
+textOut = document.getElementById("output-textbox");
+hint = document.getElementById('hint');
+
+told_to_calm = false
+function process(input) {
+    
+    if (input == "hi" || input == "Hi" || input == "hello" || input == "Hello"){
+	 hint.textContent ="ask him to talk to you.";
+	 talkNoise.play();
+     return ("LEAVE ME ALONE!!!");
+	 }
+
+    else if (input == ""){
+		hint.textContent ="Try saying hello.";
+		talkNoise.play();
+    	return ("AREN'T YOU GONNA SAY SOMETHING?!")
+	}
+
+    else if (input == "Whats up?" || input == "whats up?" || input == "What's up?" || input == "Whats up" || input == "whats up"|| input == "what's up"){
+		hint.innerHTML ="Why dosen't he <br> want to talk?";
+		talkNoise.play();
+    	return ("I don't want to talk about it")
+	}
+
+    else if (input == "talk to me" || input == "I'm here for you" || input == "Im here for you"){
+		hint.textContent ="why is he angry?.";
+    	return ("I'm angry")
+	}
+    
+    else if (input == "why?" || input == "Why?" || input == "why" || input == "Why" || input == "About?" || input == "about?" || input == "about what?" || input == "About what?"){
+		hint.textContent ="You should try to calm him down.";
+		talkNoise.play();
+    	return ("Well... If you must know. I'm angry because, as you may have noticed, MY ROOM IS ON FIRE I have tried everything to put it out, but everything I do just makes it bigger, ITS INFURIATING. Also it's raining outside... What should I do?")
+	}
+    else if (input == "calm down" || input == "Calm down" || input == "Chill out" || input == "chill out" || input == "Take care of yourself" || input == "take care of yourself"){
+		told_to_calm = true
+		talkNoise.play();
+		hint.textContent ="";
+    	return ("Hmm... Perhaps I should focus more on the things I can actually control. Is that what you mean?")
+	}
+    else if (input == "yes"){
+		if (told_to_calm == true){
+			var to_next_page = setTimeout(function(){
+				alert('You calmed him down!')
+				window.location.href = 'NPC3convoEnd.html'
+			},2000)
+    	return ("That actually makes sense...")
+		}else{
+		hint.textContent ="Try saying hello.";
+		talkNoise.play();
+    	return ("HOW DARE YOU?!")
+		}
+	}
+    else if (input == "no"){
+		hint.textContent ="Try saying hello.";
+    	return ("Well you're no help. Just go away...")
+	}
+
+    else {
+		hint.textContent ="Try saying hello.";
+		talkNoise.play();
+    	return ("HOW DARE YOU?!")
+	}
+
+    
+}
+
+function go() {
+    var input = textIn.value;
+    textIn.value = "";
+    var output = process(input);
+    textOut.value += output + "\n";
+}
+
+</script>
+
+
+<div id="angrychar"> <img src="npc3.gif" width= "150px"; height="300px"> </div>
+
+
+<div id="player"> <img src="Player.gif" width= "150px"; height="300px"> </div>
+
+<div id="background"> <img src="Area3bg.png"></div>
+
+<div> <img src="bg3rain.gif"></div>
+
+<div id="fire"> <img src="area3fire.gif"> </div>
+
+
+
+
+</body>
+</html>

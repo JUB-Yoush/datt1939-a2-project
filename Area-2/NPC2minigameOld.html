@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>2-3</title>
+
+<style>
+
+	body {
+	background-color: #cccccc;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: medium;
+	color: #000000;
+	background-image: url("Room2bg.png");
+	}
+
+	#player {
+	position: absolute;
+	z-index: 2;
+	}
+	
+	#exit {
+	position: absolute;
+	top: 500px;
+	left: 1200px;
+	}
+	
+	.exit {
+	position: absolute;
+	width: 80px;
+	height: 100px;
+	background-size: 100px 100px;
+	background-image: url("Player.gif");
+	background-repeat: repeat;
+	}
+	
+	#item {
+	position: absolute;
+	top: 500px;
+	left: 800px;
+	width: 100px;
+	height: 100px;
+	}
+	
+	.tile {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background-size: 100px 100px;
+	background-image: url("tile.png");
+	background-repeat: repeat;
+	}
+	
+	#tile_bot {
+	top: 600px;
+	left: 0px;
+	width: 1280px;
+	height: 100px;
+	}
+	
+	#tile_left {
+	top: 0px;
+	left: 100px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_left2 {
+	top: 200px;
+	left: 300px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_top {
+	top: 0px;
+	left: 200px;
+	width: 1080px;
+	height: 100px;
+	}
+	
+	#tile_middle {
+	top: 0px;
+	left: 500px;
+	width: 100px;
+	height: 300px;
+	}
+
+	#tile_middle2 {
+	top: 400px;
+	left: 500px;
+	width: 400px;
+	height: 100px;
+	}
+
+	#tile_middle3 {
+	top: 200px;
+	left: 700px;
+	width: 400px;
+	height: 100px;
+	}
+	
+	#tile_right {
+	top: 200px;
+	left: 900px;
+	width: 100px;
+	height: 500px;
+	}
+	
+	#tile_right2 {
+	top: 0px;
+	left: 1200px;
+	width: 80px;
+	height: 500px;
+	}
+	
+	#tile_right3 {
+	top: 400px;
+	left: 1100px;
+	width: 100px;
+	height: 100px;
+	}
+	
+	.interact {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	}
+	
+	
+
+
+</style>
+
+<script>
+
+var originalx = 0;
+var originaly = 0;
+var itemx = 800;
+var itemy = 500;
+var exitx = 1200;
+var exity = 500;
+var gotItem = false;
+
+var backupx = 0;
+var backupy = 0;
+
+var alertdone = "no";
+
+function moveadiv(div2move, wheremov) { //source: "js_onkeypressMoveADiv_areas3"
+    // usage: moveadiv('idofdiv','direction2move')
+
+    var adiv = document.getElementById(div2move);  //get the id of the div
+    var direction = wheremov;	
+
+    // alert("div2move: " + div2move + " | direction: " + direction);		
+	
+	if (direction == "left") {     // move the position 10 according to direction 
+        originalx = originalx - 100;        
+    } else if (direction == "right") {
+		originalx = originalx + 100;
+    } else if (direction == "up") {
+		originaly = originaly - 100;
+    } else if (direction == "down") {
+		originaly = originaly + 100;
+    } 
+    
+    //Now, adjust position in case it is going out of bounds:
+
+	if (originaly < 0) {
+	originaly = 0;		
+	}
+	
+	if (originaly > 600) {
+	originaly = 600;		
+	}
+
+	if (originalx < 0) {
+	originalx = 0;			
+	}
+
+	if (originalx > 1200) { 
+	originalx = 1200;		
+	}
+
+
+	if (originalx > 1) { // top-most wall
+		if (originaly < 100) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	if (originaly > 500) { // bottom wall
+		originalx = backupx;
+		originaly = backupy;
+	}	//end check x
+	
+	if (originalx >= 100 && originalx < 200) { // left-most wall
+		if (originaly < 500) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+
+	if (originalx >= 300 && originalx < 400) { // 2nd left-most wall
+		if (originaly > 100) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+
+	if (originalx >= 500 && originalx < 600) { // middle-top wall
+		if (originaly < 300) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+
+	if (originalx >= 500 && originalx < 1000) { // middle-bottom wall (above sunglasses)
+		if (originaly >= 400 && originaly < 500) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	
+	if (originalx >= 900 && originalx < 1000) { // 2nd right-most wall
+		if (originaly >= 200) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	
+	if (originalx >= 700 && originalx < 1100) { // middle-right wall
+		if (originaly >= 200 && originaly < 300) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	
+	if (originalx >= 1100) { // tile sticking out at bottom right
+		if (originaly >= 400 && originaly < 500) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	
+	if (originalx >= 1200) { // right-most wall
+		if (originaly < 500) {
+			originalx = backupx;
+			originaly = backupy;
+		}
+	}
+	
+	
+	// Save position (used in wall if statements)
+	
+	backupx = originalx;
+	backupy = originaly;
+
+	// Now, move the div to the position for x and y:
+	
+	adiv.style.left = backupx + "px";
+	adiv.style.top = backupy + "px";
+	
+	//Finally, if the div has reached the desired area, do something:
+	
+	if (originalx >= itemx && originalx < itemx+100) { //check x
+	
+		if (originaly >= itemy && originaly < itemy+100) { //check y
+
+			if (alertdone == "no") {
+				gotItem = true;
+				alert("You found his sunglasses!");
+				alertdone = "yes";
+			}
+	   } //end check y
+	   
+	} //end check x
+
+	if (originalx >= exitx && originalx <= exitx+100) { //check x
+	
+		if (originaly >= exity && originaly < exity+100) { //check y
+
+			if (gotItem == true) {
+				alert("You found the way out... or did you?");
+				alertdone = "yes";
+				window.location.href = "NPC2convoEnd.html";
+			}
+			if (gotItem == false) {
+				alert("You haven't found all the items yet...");
+			}
+	   } //end check y
+	   
+	} //end check x
+	
+} //end of function moveadiv
+
+function keyStuff(event) {
+
+   var x = event.charCode || event.keyCode;  // Get the Unicode value
+   var y = String.fromCharCode(x);  // Convert the value into a character
+   
+
+	// Move the div using WASD keys
+   if (x == 97) {  //if the charCode from the keypress is 97, a
+       moveadiv('player','left');
+       
+   } else if (x == 100) { // d
+       moveadiv('player','right');
+       
+   } else if (x == 119) { // w
+       moveadiv('player','up');
+       
+   } else if (x == 115) { // s
+       moveadiv('player','down');
+       
+   } else {  //any other keys pressed:
+   }
+
+}  //end of function keyStuff
+
+</script>
+<audio id="bgm" autoplay loop>
+	<source src='anxiousloop.mp3' type="audio/mpeg">
+</audio>
+</head>
+
+<body onkeypress="keyStuff(event);">
+
+	<div id="player"><img src= "Minigamesprite.gif"	width="100" height="100"></div>
+	<div class="interact" id="item"><img src= "sunglasses.png" width="100" height="100"></div>
+	
+	<div class="tile" id="tile_bot"></div>
+	<div class="tile" id="tile_left"></div>
+	<div class="tile" id="tile_left2"></div>
+	<div class="tile" id="tile_top"></div>
+	<div class="tile" id="tile_middle"></div>
+	<div class="tile" id="tile_middle2"></div>
+	<div class="tile" id="tile_middle3"></div>
+	<div class="tile" id="tile_right"></div>
+	<div class="tile" id="tile_right2"></div>
+	<div class="tile" id="tile_right3"></div>
+	<div class="exit" id="exit"></div>
+ 
+</body>
+</html>
+

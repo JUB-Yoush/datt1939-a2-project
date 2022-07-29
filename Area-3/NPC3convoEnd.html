@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>3-4</title>
+    <style>
+        body{
+            height: 100%;
+            overflow: hidden;
+        }
+        p{
+            position: absolute;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: larger;
+        }
+        img{
+            position: absolute;
+        }
+        #bg{
+            position: absolute;
+            z-index: -100;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        .talksprite{
+            position: absolute;
+            width:35%;
+            z-index: -10;
+        }
+        #npcImg{
+            top:50px;
+            
+        }
+        #playerImg{
+            left: 60%;
+        }
+        #txtbox{
+            position: absolute;
+            z-index: 10;
+            left: 100px;
+            top: 325px;
+        }
+        #txt{
+            z-index: 100;
+            top: 405px;
+            left: 150px;
+        }
+        #talker{
+            
+            z-index: 100;
+            top: 345px;
+            left: 180px;
+        }
+        #advArrow{
+            position: absolute;
+            width:5%;
+            z-index: 110;
+            top: 575px;
+            left: 970px;
+        }
+        #bgRain{
+            position: absolute;
+            z-index: -150;
+        }
+        .spinner {
+            animation-name: spin;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+          }
+          @keyframes spin {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(-360deg); }
+          }
+          #bgFire{
+              z-index: -50;
+              top: 0px;
+              left: 0px;
+              width: 100%;
+          }
+    </style>
+</head>
+<body>
+    <audio id="bgm" autoplay loop>
+        <source src='angery.mp3' type="audio/mpeg">
+    </audio>
+    <img id = bgFire src =area3fire.gif>
+    <img id = 'bg' src = 'Area3bg.png'>
+    <img id =bgRain src ='bg3rain.gif'>
+    <img class = talksprite id ='npcImg' src = 'npc3.gif'>
+    <img class = talksprite id = 'playerImg' src ='Player.gif'>
+    <div>
+        <!-- Everything in the Textbox -->
+    <img id= 'txtbox' src = 'Textwithtext.png'>
+    <p id = talker>???</p>
+    <p id = 'txt'>Test text. lorem ipsum or whatever.</p>
+    <img id = advArrow src = 'advtxt.PNG'>
+    </div>
+    <audio id="talkNoise">
+        <source src='talknoise3.mp3' type="audio/mpeg">
+    </audio>
+
+   
+    
+</body>
+<script>
+   
+
+    //getting elements from the html code
+    let txtTag = document.getElementById('txt');
+    
+    let advArrow = document.getElementById('advArrow')
+    //hides it
+    advArrow.style.display = 'none';
+    let talkerTag = document.getElementById('talker')
+    let talkNoise = document.getElementById('talkNoise')
+   
+    //--------------------------------------- DIALOUGE LINES GO IN THIS ARRAY ---------------------------------------//
+    let dialouge_lines = ["No longer mad",
+    "Thank you for teaching me,",
+    "I don't need to trouble myself with the things I can't control,",
+    "and can just try to accept them as they are",
+    "Your chill vibes and lack of any real opinions helped me out,"
+    ,"I could learn a thing or two from you.",
+    "My 'Thing'?",
+    "Yeah sure, if I held onto it, it would probobly catch on fire or somthing."];
+
+    //what number line of dialouge were on. NOT the letter
+    let current_line = 0;
+
+    // the Line of dialouge itself. not the number
+    let current_text = '';
+    let is_talking = false
+    //called whenever you click the arrow
+    let update_txtBox = function(){
+        //check what line of the dialouge array we're on. we might want to do somthing special 
+        if(current_line == dialouge_lines.length){
+            //-------------------------------------- SEND TO THE MINIGAME --------------------------------------- //
+            alert("you've collected the thing of the embers.")
+            window.location.href = "Area3.html";
+        }
+        is_talking = true
+        //clear the existing text content
+        txtTag.textContent = '';
+        //disable arrow
+        turn_arrow('OFF');
+        //set a var to be the current text string
+        let txt_output = ''
+        
+        current_text = dialouge_lines[current_line]
+        //the var used to check what letter were at
+        index = 0
+        //splits the text line into an array, which each position of the array being a letter.
+        let letter_array = current_text.split('');
+        let talk_timer = setTimeout(play_talkNoise,100)
+        //sub-function adds letter to the output string
+        let render_letter = function(){
+            txt_output += letter_array[index]
+            txtTag.textContent = txt_output
+            
+            index += 1
+            if (index == letter_array.length){
+                is_talking = false
+               clearTimeout(talk_timer)
+                turn_arrow('ON');
+            } else if (index < letter_array.length){
+                window.setTimeout(render_letter,50)
+            }
+        }
+        //reset timer
+        window.setTimeout(render_letter,50)
+    }
+
+    turn_arrow = function(state){
+        if (state == 'ON'){
+            advArrow.style.display = 'block';
+        } else if (state == 'OFF'){
+            advArrow.style.display = 'none';
+        }
+    }
+    play_talkNoise = function(){
+         //talkNoise.load(); 
+         
+         talkNoise.play();
+         if(is_talking == true){
+            talk_timer = setTimeout(play_talkNoise,100)
+         }
+         
+    }
+    update_talker = function(talker){
+        talkerTag.textContent = talker
+
+    }
+    advArrow.addEventListener('mouseover',function(){
+        advArrow.src = 'advtxtover.PNG'
+        advArrow.classList.add('spinner')
+    })
+    advArrow.addEventListener('mouseleave',function(){
+        advArrow.src = 'advtxt.PNG'
+        advArrow.classList.remove('spinner')
+    })
+    advArrow.addEventListener('click',function(){
+        current_line += 1
+        update_txtBox();
+    })
+    update_talker('Anger');
+    update_txtBox();
+    
+</script>
+</html>
