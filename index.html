@@ -2,213 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    
-    <title>0</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
         body{
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        h1{
-            font-family: 'Courier New', Courier, monospace;
-        }
-        button{
-            font-family: 'Courier New', Courier, monospace;
+        img{
+            margin: 0px;
         }
         p{
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 20px;
+            z-index: 10;
+            
         }
-        #messagesDiv{
-            position: absolute;
-        }
-        .rngMessage{
-            position: absolute;
+        #main{
+            background-image: url(screensize.gif);
+            background-repeat:no-repeat;
+            width: 1200px;
+            height: 800px;
         }
 
-        #progressBtn{
-            position: absolute;
-            z-index: 10;
-            left: 40%;
-            top: 50%;
-            font-size: 24px;
-        }
-        #hoverHeader{
-            position: absolute;
-            animation: .8s shake infinite alternate;
-            text-align: center;
-            left:37%;
-            top: 30%;
-            font-size: 48px;
-        }
-        #bgImg{
-            width: 100%;
-            position: absolute;
-            z-index: -100;
-            top: 0px;
-            left: 0px;
-        }
-         @keyframes shake {
-            0% { transform: skewX(-15deg); }
-            5% { transform: skewX(15deg); }
-            10% { transform: skewX(-15deg); }
-            15% { transform: skewX(15deg); }
-            20% { transform: skewX(0deg); }
-            100% { transform: skewX(0deg); }  
-          }      
     </style>
 </head>
 <body>
-    <audio id="bgm" autoplay loop>
-        <source src='opening/dreamscape.mp3' type="audio/mpeg">
-    </audio>
-    
-    <img id = bgImg src = opening/opBg.PNG>
-    <h1 id = 'hoverHeader'>FIGURE IT OUT</h1>
-    <button id = progressBtn>CUT THROUGH THE NOISE</button>
-    <button id = statementBtn>Statement</button>
-    <div id = 'messagesDiv'>
-    </div>
-    
-</body>
-<script>
-    /* 
-    OPENING PAGE
-    spawn in p tags in random area's of the screen
-    the p tags will have a random text message 
-    after a certain amount of time, it will change what message it uses, move somewhere else on the screen, and itterate a counter
-    once the counter reaches a certain number, it will switch to the ending section
-
-    ENDING SECTION
-    one message in big text moving around the screen
-    eventually stops at the middle and fades away
-    at the end of the fade transition to the text page
-    */
-
-    //The div we put the p tags in
-    let messagesDiv = document.getElementById('messagesDiv')
-    let progressBtn = document.getElementById('progressBtn')
-    let hoverHeader = document.getElementById('hoverHeader')
-    let statementBtn = document.getElementById('statementBtn')
-    progressBtn.style.display = 'none';
-    hoverHeader.style.display = 'none';
-
-    //how many tags we show at a time
-    let tag_amount = 50;
-
-    //times we've ran the timeout function
-    let times_ran = 0
-
-    //the inital timer interval
-    let time_interval = 1000
-
-    let tag_limit = 75
-
-    //text choices
-    var txtChoiceArray = ["Haven't you been waiting for yourself?",
-    "It's time you stop living on auto pilot",
-    "I'm so hungry I could eat Italy",
-    "You must look inward to understand your outward actions",
-    "Flowers are the fruits, you want the plants with roots.",
-    "Who are you? why are you? what is the you-ness that makes you you?",
-    "Warning: The following contains scenes. Please consult your local eyes to understand what you're seeing.",
-    "Taxes.",
-    "Do you meditate on your thoughts?",
-    "Do you think about why you feel how you feel?",
-    "What are feelings? you can't feel them, they're in your brain!",
-    "See the world! with eyes wide closed!",
-    "Someone messed with the thermostat",
-    "Go to Statement Land for the A2 Statement!",
-    "Chaos! Chaos?",
-    "Find the things from the things givers",
-    "The thing givers need to be persuaded",
-    "you must prove your value to the thing givers",
-    "the door to the center of the mind is blocked",
-    "one of boredom, one of anxiety, one of somthing idk lmao",
-    "This screen sure is cluttered isn't it?",
-    "NOTHING IS OF THE MAKING SENSE",
-    "The Floor is made of Floor",
-    "Hey dude did you catch the latest vapid internet drama?",
-    "MATH MATH MATH",
-    "Can't help eat entire colums of oreos, I'm a scorpio",
-    "Jojos!? Josos? Nothing makes sense!",
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."];
-
-    let shuffle_words = function(){
-        //loops through all the p tags
-        for (tag in p_array){
-            //gives them a random position, and text
-            var rng = Math.floor(Math.random() * txtChoiceArray.length);
-            p_array[tag].textContent = txtChoiceArray[rng]
-            let rngTop = Math.floor(Math.random() * 500);
-            rngTop += 10
-            let rngLeft = Math.floor(Math.random() * 900);
-            rngLeft += 150
-            p_array[tag].style.top = rngTop + "px";
-            p_array[tag].style.left = rngLeft + "px";
-        }
-    }
-
-    for(let i = 0; i < tag_amount; i++){
-        //makes tag_ammout of p tags and adds them to the div
-       p_instance = document.createElement('p');
-       p_instance.className = 'rngMessage';
-       messagesDiv.appendChild(p_instance);
-    }
-
-    let p_array = document.getElementsByClassName('rngMessage');
-    
-    let timeout = function(){
-        //sets a new time interval between 100 - 1000 milliseconds
-        time_interval = Math.random() * 750
-        //makes sure time_interval is greater than 100
-            if (time_interval < 100){
-                time_interval = 100
-            }
-            //re-assigns the new value to time interval
-            timer = setTimeout(timeout,time_interval - (10 * times_ran))
-        //add 1 to times ran, if it hasn't reached the running limit then shuffle the words again
-        times_ran += 1;
-        if (times_ran > tag_limit){
-            show_btn()
-            
-        } 
-        shuffle_words();
+    <div id="main">
+        <p>please adjust browser window to be size of background (1200x800)</p>
+        <a href="start.html">Start</a>
         
-    }
-
-    let show_btn = function(){
-        //hides the text, show's the button and header
-        progressBtn.style.display = 'block';
-        progressBtn.addEventListener('mouseover',function() {
-            messagesDiv.style.display = 'none';
-            hoverHeader.style.display = 'block';
-        })
-
-        progressBtn.addEventListener('mouseleave',function() {
-            messagesDiv.style.display = 'block';
-            hoverHeader.style.display = 'none';
-        })
-
-
-    }
-    function advance_page(){
-        let ready = prompt("Are you sure you're ready? (Y/N)")
-        ready = ready.toUpperCase()
-        if (ready == 'Y'){
-            alert("Yeah, you are looking a little tired. Let's get started.")
-            window.location.href = "Area-1/Area1.html";
-        }else if (ready == 'N'){
-            alert("Still ruminating huh? Well I'm ready whenever you are.")
-        }
-    }
-    let timer = setTimeout(timeout,time_interval)
-    progressBtn.addEventListener('click', advance_page)
-    statementBtn.addEventListener('click', function(){
-        window.location.href = "opening/statement.html";
-    })
-    
-    
-</script>
+       
+    </div>
+   
+</body>
 </html>
